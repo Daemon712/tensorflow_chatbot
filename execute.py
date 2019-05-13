@@ -284,6 +284,8 @@ def init_session(sess, conf='seq2seq.ini'):
     return sess, model, enc_vocab, rev_dec_vocab
 
 def decode_line(sess, model, enc_vocab, rev_dec_vocab, sentence):
+    sentence = sentence.lower()
+
     # Get token-ids for the input sentence.
     token_ids = data_utils.sentence_to_token_ids(tf.compat.as_bytes(sentence), enc_vocab)
 

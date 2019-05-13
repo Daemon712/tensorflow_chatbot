@@ -20,7 +20,7 @@ def process_text(source, target):
     line = source.readline()
     if line and line != '\n':
         if not bool(engCharsPattern.search(line)) and line.find('Нотабеноиде') == -1:
-            target.write(line)
+            target.write(line.lower())
 
         process_text(source, target)
 
