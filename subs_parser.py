@@ -6,7 +6,7 @@ engCharsPattern = re.compile('[a-zA-Z]')
 
 
 def process_subs():
-    with open('data/raw_lines.txt', 'w') as target:
+    with open('data/raw_lines.txt', 'w', encoding='UTF-8') as target:
 
         for folder_name in os.listdir('subs'):
             for file_name in os.listdir('subs/' + folder_name):
