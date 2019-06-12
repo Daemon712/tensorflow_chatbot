@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask import jsonify
+from uuid import uuid4
 
 app = Flask(__name__,static_url_path="/static") 
 
@@ -13,6 +14,15 @@ def reply():
 @app.route("/")
 def index(): 
     return render_template("index.html")
+
+@app.route("/chat", methods=['POST'])
+def newChat():
+    chatId  = str(uuid4())
+    return redirect(url_for("getChat", chatId=chatId))
+
+@app.route("/chat/<chatId>", methods=['GET'])
+def getChat(chatId):
+    return render_template("chat.html", chatId=chatId)
 #############
 
 '''

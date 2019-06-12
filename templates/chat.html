@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="chat">
+    <div class="chat-title">
+        <h1>Я ЧАТ БОТ</h1>
+        <h2>Поговори со мной</h2>
+        <figure class="avatar">
+            <img src="/static/res/bot_pic.png"/>
+        </figure>
+    </div>
+    <div class="messages">
+        <div class="messages-content"></div>
+    </div>
+    <div class="message-box">
+        <textarea type="text" class="message-input" placeholder="Напиши сообщение..."></textarea>
+        <button type="submit" class="message-submit">Отправить</button>
+    </div>
+</div>
+<button type="button" class="ui-button ui-widget ui-corner-all"
+        onclick="$('#dialog').dialog('open')">
+    Завершить диалог
+</button>
+<div id="dialog">
+    <h3>Хотите оставить отзыв?</h3>
+    <p>Это очень поможет проекту!</p>
+</div>
+<script>
+    $("#dialog").dialog({
+        resizable: false,
+        autoOpen: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        buttons: [
+            {
+                text: "Оставить отзыв",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "Закрыть диалог",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    })
+    ;
+</script>
+<script src="/static/js/chat.js"></script>
+{% endblock %}
