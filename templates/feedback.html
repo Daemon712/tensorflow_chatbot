@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<script>
+    var sum = 0;
+    var sliders = 0;
+    function initSlider(prefix) {
+        sliders++;
+        sum+=2;
+        $("#" + prefix + "-slider").slider({
+            range: "min",
+            value: 2,
+            max: 4,
+            slide: function (event, ui) {
+                $("#" + prefix + "-label").text(1 + ui.value);
+                let old = $(this).slider("value");
+                let summary = $("#summary");
+                sum = sum - old + ui.value;
+                let avg = sum / sliders;
+                summary.text(avg + 1);
+                $("#progressbar").progressbar("option", { value: avg });
+            }
+        });
+    }
+    $(function () {
+        $("#tabs").tabs();
+         $("#progressbar").progressbar({ value: 2, max: 4});
+        let rates = ['content', 'organization', 'vocabulary', 'grammar'];
+        for (let rate of rates) {
+            initSlider(rate);
+        }
+    });
+</script>
+<h3>Отзыв</h3>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Общее</a></li>
+        <li><a href="#tabs-2">Реплики</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div>
+            <strong>Содержание: <span id="content-label">3</span></strong>
+            <p><small>Смысловой объем высказываний. Соответствие теме диалога.</small></p>
+            <div id="content-slider"></div>
+            <br/>
+            <strong>Организация: <span id="organization-label">3</span></strong>
+            <p><small>Адекватная реакция на реплики собеседника. Cтилевое оформление речи.</small></p>
+            <div id="organization-slider"></div>
+            <br/>
+            <strong>Лексика: <span id="vocabulary-label">3</span></strong>
+            <p><small>Большой словарный запас. Лексические ошибки</small></p>
+            <div id="vocabulary-slider"></div>
+            <br/>
+            <strong>Грамматика: <span id="grammar-label">3</span></strong>
+            <p><small>Использование грамматических конструкций. Грамматические ошибки.</small></p>
+            <div id="grammar-slider"></div>
+            <br/>
+            <strong>Итого: <span id="summary">3</span></strong>
+            <div id="progressbar"></div>
+        </div>
+    </div>
+    <div id="tabs-2">
+        <p></p>
+    </div>
+</div>
+<button class="ui-button ui-widget ui-corner-all">Отправить</button>
+{% endblock %}
