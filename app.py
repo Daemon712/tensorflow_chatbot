@@ -24,7 +24,7 @@ def index():
 @app.route("/chat", methods=['POST'])
 def new_chat():
     chat_id = str(uuid4())
-    return redirect(url_for("get_chat", chatId=chat_id))
+    return redirect(url_for("get_chat", chat_id=chat_id))
 
 
 @app.route("/chat/<chat_id>", methods=['GET'])
