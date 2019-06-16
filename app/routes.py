@@ -25,6 +25,7 @@ def reply(chat_id):
     db.session.commit()
     return jsonify(response_msg.as_dict())
 
+
 @app.route('/chat/<chat_id>/message', methods=['GET'])
 def get_messages(chat_id):
     messages = Message.query.filter_by(chat_id=chat_id).all()
@@ -34,6 +35,7 @@ def get_messages(chat_id):
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/chat", methods=['POST'])
 def new_chat():
@@ -52,3 +54,17 @@ def get_chat(chat_id):
 @app.route("/chat/<chat_id>/feedback", methods=['GET'])
 def get_feedback(chat_id):
     return render_template("feedback.html", chatId=chat_id)
+
+
+@app.route("/chat/<chat_id>/feedback", methods=['POST'])
+def save_feedback(chat_id):
+    chat = Chat.query.filter_by(id=chat_id).first_or_404()
+    chat.content_rate = request.form['content_rate']
+    chat.organization_rate = request.form['organization_rate']
+    chat.vocabulary_rate = request.form['vocabulary_rate']
+    chat.grammar_rate = request.form['grammar_rate']
+    chat.total_rate = request.form['total_rate']
+    chat.comment = request.form['comment']
+    db.session.add(chat)
+    db.session.commit()
+    return jsonify()

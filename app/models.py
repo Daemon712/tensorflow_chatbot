@@ -5,6 +5,12 @@ from app import db
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    content_rate = db.Column(db.Numeric)
+    organization_rate = db.Column(db.Numeric)
+    vocabulary_rate = db.Column(db.Numeric)
+    grammar_rate = db.Column(db.Numeric)
+    total_rate = db.Column(db.Numeric)
+    comment = db.Column(db.String(4096))
     messages = db.relationship('Message', backref='chat')
 
     def __repr__(self):

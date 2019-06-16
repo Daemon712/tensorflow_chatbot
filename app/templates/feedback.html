@@ -1,35 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<script>
-    var sum = 0;
-    var sliders = 0;
-    function initSlider(prefix) {
-        sliders++;
-        sum+=2;
-        $("#" + prefix + "-slider").slider({
-            range: "min",
-            value: 2,
-            max: 4,
-            slide: function (event, ui) {
-                $("#" + prefix + "-label").text(1 + ui.value);
-                let old = $(this).slider("value");
-                let summary = $("#summary");
-                sum = sum - old + ui.value;
-                let avg = sum / sliders;
-                summary.text(avg + 1);
-                $("#progressbar").progressbar("option", { value: avg });
-            }
-        });
-    }
-    $(function () {
-        $("#tabs").tabs();
-         $("#progressbar").progressbar({ value: 2, max: 4});
-        let rates = ['content', 'organization', 'vocabulary', 'grammar'];
-        for (let rate of rates) {
-            initSlider(rate);
-        }
-    });
-</script>
+<script src="/static/js/feedback.js"></script>
 <h3>Отзыв</h3>
 <div id="tabs">
     <ul>
@@ -63,10 +34,14 @@
         <p></p>
     </div>
     <div id="tabs-3">
-        <p>
-
-        </p>
-        <button class="ui-button ui-widget ui-corner-all">Отправить</button>
+        <div>
+            <strong>Комментарий</strong>
+            <p>
+                <small>Ваш отзыв о проекте</small>
+            </p>
+            <textarea id="comment-area" class="ui-widget ui-corner-all"></textarea>
+        </div>
+        <button class="ui-button ui-widget ui-corner-all" onclick="sendFeedback()">Отправить</button>
     </div>
 </div>
 {% endblock %}

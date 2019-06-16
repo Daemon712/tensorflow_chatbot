@@ -8,15 +8,15 @@ $(window).load(function () {
 });
 
 function loadMessages() {
-    $.get(window.location.pathname + '/message')
-        .done(function (messages) {
-            for (let message of messages) {
-               if (message.author === -1) {
-                   insertBotMessage(message.text)
-               } else {
-                   insertUserMessage(message.text)
-               }
+    $.get(window.location.pathname + '/message'
+    ).done(function (messages) {
+        for (let message of messages) {
+            if (message['author'] === -1) {
+                insertBotMessage(message.text)
+            } else {
+                insertUserMessage(message.text)
             }
+        }
 
         updateScrollbar();
 
