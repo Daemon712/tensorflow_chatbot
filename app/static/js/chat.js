@@ -4,10 +4,26 @@ var $messages = $('.messages-content'),
 
 $(window).load(function () {
     $messages.mCustomScrollbar();
-    setTimeout(function () {
-        //fakeMessage();
-    }, 100);
+    loadMessages();
 });
+
+function loadMessages() {
+    $.get(window.location.pathname + '/message')
+        .done(function (messages) {
+            for (let message of messages) {
+               if (message.author === -1) {
+                   insertBotMessage(message.text)
+               } else {
+                   insertUserMessage(message.text)
+               }
+            }
+
+        updateScrollbar();
+
+    }).fail(function () {
+        alert('Ошибка :(');
+    });
+}
 
 function updateScrollbar() {
     $messages.mCustomScrollbar("update").mCustomScrollbar('scrollTo', 'bottom', {
@@ -26,18 +42,15 @@ function setDate() {
 
 function insertMessage() {
     let messageInput = $('.message-input');
-    msg = messageInput.val();
-    if ($.trim(msg) === '') {
+    let text = messageInput.val();
+    if ($.trim(text) === '') {
         return false;
     }
-    $('<div class="message message-personal">' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
+    insertUserMessage(text).addClass('new');
     // setDate();
     messageInput.val(null);
     updateScrollbar();
-    interact(msg);
-    setTimeout(function () {
-        //fakeMessage();
-    }, 1000 + (Math.random() * 20) * 100);
+    interact(text);
 }
 
 $('.message-submit').click(function () {
@@ -53,17 +66,12 @@ $(window).on('keydown', function (e) {
 
 
 function interact(message) {
-    // loading message
     $('<div class="message loading new"><figure class="avatar"><img src="/static/res/bot_pic.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
-    // make a POST request [ajax call]
-    $.post('/message', {
+    $.post(window.location.pathname + '/message', {
         msg: message,
     }).done(function (reply) {
-        // Message Received
-        // 	remove loading meassage
         $('.message.loading').remove();
-        // Add message to chatbox
-        $('<div class="message new"><figure class="avatar"><img src="/static/res/bot_pic.png" /></figure>' + reply['text'] + '</div>').appendTo($('.mCSB_container')).addClass('new');
+        insertBotMessage(reply['text']).addClass('new');
         // setDate();
         updateScrollbar();
 
@@ -72,6 +80,10 @@ function interact(message) {
     });
 }
 
-function finishDialog() {
+function insertUserMessage(text) {
+    return $('<div class="message message-personal">' + text + '</div>').appendTo($('.mCSB_container'))
+}
 
+function insertBotMessage(text) {
+    return $('<div class="message new"><figure class="avatar"><img src="/static/res/bot_pic.png" /></figure>' + text + '</div>').appendTo($('.mCSB_container'));
 }
