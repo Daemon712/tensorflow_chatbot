@@ -56,3 +56,29 @@ class Message(db.Model):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class BotWord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(128), index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<BotWord {}>'.format(self.word)
+
+
+class UserWord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(128), index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<UserWord {}>'.format(self.word)
+
+
+class VocabularyWord(db.Model):
+    word = db.Column(db.String(128), primary_key=True)
+    frequency = db.Column(db.Numeric)
+
+    def __repr__(self):
+        return '<VocabularyWord {}>'.format(self.word)

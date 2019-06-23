@@ -19,7 +19,7 @@
 
     .tab-panel {
         width: 900px;
-        height: 600px;
+        height: 620px;
     }
 
     #struct-tabs a {
@@ -136,18 +136,6 @@
                 </div>
                 <br style="clear: left"/>
             </div>
-            <h3>Итоговая</h3>
-            <div>
-                <div class="chart">
-                    <strong>Средняя оценка:</strong>
-                    <div id="rate_trend/total" class="graph"></div>
-                </div>
-                <div class="chart">
-                    <strong>Распределение:</strong>
-                    <div id="rate_ratio/total" class="donut"></div>
-                </div>
-                <br style="clear: left"/>
-            </div>
         </div>
     </div>
     <div class="tab-panel" id="tabs-3">
@@ -220,82 +208,67 @@
             </thead>
             <tbody>
             <tr style="text-align: right">
-                <td>43500</td>
-                <td>16500</td>
-                <td>60000</td>
+                <td>{{active_bot_vocabulary}}</td>
+                <td>{{passive_vocabulary-active_bot_vocabulary}}</td>
+                <td>{{passive_vocabulary}}</td>
                 <td></td>
-                <td>30250</td>
-                <td>20750</td>
-                <td>51000</td>
+                <td>{{known_user_vocabulary}}</td>
+                <td>{{active_user_vocabulary-known_user_vocabulary}}</td>
+                <td>{{active_user_vocabulary}}</td>
             </tr>
             <tr>
                 <td colspan="3">
                     <div id="progressbar_1">
-                        <div class="progress-label">72.5%</div>
+                        <div class="progress-label">{{'%0.1f' %
+                            (100.0*active_bot_vocabulary/passive_vocabulary)|float}}%
+                        </div>
                     </div>
                 </td>
                 <td></td>
                 <td colspan="3">
                     <div id="progressbar_2">
-                        <div class="progress-label">59.3%</div>
+                        <div class="progress-label">{{'%0.1f' %
+                            (100.0*known_user_vocabulary/active_user_vocabulary)|float}}%
+                        </div>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
         <div style="clear: left; font-size: small; margin-top: 20px">
-            <table id="vocabulary-table" style="width: 100%"></table>
+            <table id="vocabulary-table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Слово</th>
+                    <th>Словарная частота</th>
+                    <th>Использование ботом</th>
+                    <th>Дельта</th>
+                    <th>Использование пользователями</th>
+                    <th>Дельта</th>
+                </tr>
+                </thead>
+            </table>
         </div>
     </div>
     <div class="tab-panel" id="tabs-5">
         <div class="chart">
-            <div id="chart_total_rate_1" class="graph" style="width: 600px; height: 150px"></div>
+            <div id="rate_trend/total" class="graph" style="width: 600px; height: 150px"></div>
         </div>
-        <div class="chart" style="margin: 0 10px">
-            <div id="chart_total_rate_2" class="donut" style="width: 140px; height: 140px"></div>
+        <div class="chart">
+            <div id="rate_ratio/total" class="donut" style="width: 140px; height: 140px"></div>
         </div>
         <div style="clear: left; font-size: small">
-            <table id="feedback-table" style="width: 100%"></table>
+            <table id="feedback-table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Комментарий</th>
+                    <th>Оценка</th>
+                </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-        $("#vocabulary-table").DataTable({
-            columns: [
-                {name: 'Слово'},
-                {name: 'Словарная частота (ipm)'},
-                {name: 'Наблюдаемвая частота (ipm)'},
-                {name: 'Дельта'}
-            ],
-            data: {}
-        });
-        $("#progressbar_1").progressbar({
-            value: 43500 / 60000 * 100
-        });
-        $("#progressbar_2").progressbar({
-            value: 30250 / 51000 * 100
-        });
-        $("#feedback-table").DataTable({
-            columns: [
-                {name: 'Оценка'},
-                {name: 'Комментарий'},
-                {name: 'Дата'}
-            ],
-            data: [
-                [3.5, 'Хорошо. Очень интересен ваш проект!', '22.05.19'],
-                [1.2, 'Я ничего не понял что он сказал', '22.05.19'],
-                [2.3, 'Ожидал большего', '22.05.19'],
-                [4.2, 'Он разговаривает как человек, я бы не отличила!', '21.05.19'],
-                [3.1, 'Как-то не впечатлило....', '21.05.19'],
-                [2.1, 'Я ожидал что будет интереснее', '21.05.19'],
-                [3.8, 'Довольно таки неплохо', '20.05.19'],
-                [4.2, 'Ахахах! Этот бот просто гениален!', '20.05.19'],
-                [3.1, 'Нормально', '20.05.19'],
-                [2.0, 'Нет, так это не может работать', '19.05.19'],
-            ]
-        });
-    });
-</script>
 <script src="/static/js/dashboard.js"></script>
 {% endblock %}

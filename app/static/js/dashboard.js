@@ -1,7 +1,6 @@
 let charts = [];
 
 function updateCharts() {
-    console.log("X")
     for (key in charts) {
         charts[key].redraw();
     }
@@ -52,6 +51,41 @@ $(function () {
             console.error('ошибка загрузки метрики ' + chart)
         });
     }
+
+    ////
+    $("#vocabulary-table").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "/vocabulary_table",
+            lengthChange: false,
+            columns: [
+                {data: 0},
+                {data: 1},
+                {data: 2},
+                {data: 3},
+                {data: 4},
+                {data: 5},
+            ],
+            language: lang
+        });
+        $("#progressbar_1").progressbar({
+            value: parseFloat($("#progressbar_1>.progress-label").text())
+        });
+        $("#progressbar_2").progressbar({
+            value: parseFloat($("#progressbar_2>.progress-label").text())
+        });
+        $("#feedback-table").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "/feedback_table",
+            lengthChange: false,
+            columns: [
+                {data: 0},
+                {data: 1},
+                {data: 2},
+            ],
+            language: lang
+        });
 });
 
 function initDonut(chart) {
@@ -84,12 +118,14 @@ function initArea(chart, labels) {
     });
 }
 
-// function loadData(metric) {
-//     $.get('/metrics/' + metric
-//     ).done(function (data) {
-//         charts[metric].setData(data);
-//         charts[metric].redraw();
-//     }).fail(function () {
-//         console.error('ошибка загрузки метрики ' + metric)
-//     })
-// }
+let lang = {
+    "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+    "infoFiltered": "(всего _MAX_)",
+    "search": "Поиск:",
+    "paginate": {
+        "first": "Начало",
+        "last": "Конец",
+        "next": ">",
+        "previous": "<"
+    },
+}

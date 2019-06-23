@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-if sys.argv[1] == 'tf':
+if app.config['NEURAL_LOGIC']:
     import tensorflow as tf
     import execute
 
