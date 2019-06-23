@@ -10,16 +10,17 @@ import execute
 #
 @app.route('/chat/<chat_id>/message', methods=['POST'])
 def reply(chat_id):
+    chat = Chat.query.filter_by(id=chat_id).first_or_404()
     request_text = request.form['msg']
-    request_msg = Message(chat_id=chat_id, text=request_text, author=Message.AUTHOR_USER)
-
+    request_msg = Message(chat_id=chat_id, text=request_text, author=Message.AUTHOR_USER, order=chat.messages_count + 1)
     if sys.argv[1] == 'tf':
         from app import sess, model, enc_vocab, rev_dec_vocab
         response_text = execute.decode_line(sess, model, enc_vocab, rev_dec_vocab, request_text)
     else:
         response_text = request.form['msg']
 
-    response_msg = Message(chat_id=chat_id, text=response_text, author=Message.AUTHOR_BOT)
+    response_msg = Message(chat_id=chat_id, text=response_text, author=Message.AUTHOR_BOT, order=chat.messages_count + 2)
+    chat.messages_count = chat.messages_count + 2
 
     db.session.add(request_msg)
     db.session.add(response_msg)
@@ -71,9 +72,14 @@ def save_feedback(chat_id):
     chat.feedback_timestamp = datetime.now()
     for msg in chat.messages:
         msg_req = feedback['messages'][str(msg.id)]
-        msg.category = msg_req['category']
         msg.rate = msg_req['rate']
+        if msg_req['category'] in Message.LABELS_CATEGORY:
+            msg.category = msg_req['category']
     db.session.add(chat)
     db.session.commit()
     return jsonify()
 
+
+@app.route("/dashboard", methods=['GET'])
+def dashboard():
+    return render_template("dashboard.html")

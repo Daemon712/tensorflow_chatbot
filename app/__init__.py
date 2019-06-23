@@ -17,4 +17,4 @@ if sys.argv[1] == 'tf':
     sess = tf.Session()
     sess, model, enc_vocab, rev_dec_vocab = execute.init_session(sess, conf='seq2seq_serve.ini')
 
-from app import routes, models
+from app import routes, metrics, models
