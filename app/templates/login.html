@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <h1>Войти в систему</h1>
+<div id="dialog" title="Войти в систему">
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
@@ -15,4 +14,10 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+</div>
+<script>
+    $(function () {
+        $("#dialog").dialog();
+    });
+</script>
 {% endblock %}

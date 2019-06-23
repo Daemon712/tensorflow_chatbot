@@ -4,6 +4,9 @@ Flask==1.0.3
 flask-sqlalchemy==2.4.0
 flask-migrate==2.5.2
 flask-restful==0.3.7
+flask-login==0.4.1
+flask-wtf==0.14.2
+wtforms==2.2.1
 itsdangerous==0.24
 Jinja2==2.10.1
 MarkupSafe==0.23

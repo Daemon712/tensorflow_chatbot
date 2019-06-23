@@ -5,6 +5,7 @@ from decimal import Decimal
 from flask import render_template, request, redirect, url_for, jsonify
 
 import sqlalchemy as sa
+from flask_login import login_required
 
 from app.models import Chat, Message, UserWord, BotWord, VocabularyWord
 from app import app, db
@@ -94,6 +95,7 @@ def save_feedback(chat_id):
 
 
 @app.route("/dashboard", methods=['GET'])
+@login_required
 def dashboard():
     passive_vocabulary = db.session.query(db.func.count(VocabularyWord.word)).scalar()
     active_bot_vocabulary = db.session.query(BotWord.word).group_by(BotWord.word).count()
