@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <script src="/static/js/feedback.js"></script>
+<style>
+    .ui-tabs-panel {
+        width: 500px;
+        height: 500px;
+    }
+    .ui-selectmenu-button {
+        width: 150px !important;
+        font-size: small !important;
+    }
+    .message {
+        margin: 15px 5px;
+    }
+    #comment-area {
+        width: 100%;
+        height: 360px;
+    }
+    .ui-checkboxradio-checked  {
+        background: linear-gradient(#fbcb09, #f6a828) !important;
+    }
+    .ui-checkboxradio-checked .ui-icon-heart {
+        background-image: url('/static/css/images/ui-icons_ffffff_256x240.png');
+    }
+</style>
 <h3>Отзыв</h3>
 <div id="tabs">
     <ul>
@@ -30,8 +53,48 @@
             <div id="progressbar"></div>
         </div>
     </div>
-    <div id="tabs-2">
-        <p></p>
+    <div id="tabs-2" style="overflow-y: scroll">
+        <table style="width: 100%">
+            <tbody>
+            {% for message in messages %}
+            <tr>
+                <td>
+                    <input type="hidden" class="id" value="{{message.id}}"/>
+                    <figure class="avatar">
+                    {% if message.author == -1 %}
+                        <img src="/static/res/bot_pic.png" />
+                    {% else %}
+                        <img src="/static/res/user_pic.png" />
+                    {% endif %}
+                    </figure>
+                </td>
+                <td>
+                    <div class="message">{{ message.text }}</div>
+                </td>
+                <td>
+                    <select name="category" class="select-category" id="category-{{message.id}}">
+                        <option value="">...</option>
+                        <option value="greeting">Приветствие</option>
+                        <option value="narrative">Повествование</option>
+                        <option value="question">Вопрос</option>
+                        <option value="answer">Ответ</option>
+                        <option value="request">Просьба</option>
+                        <option value="abuse">Оскорбление</option>
+                        <option value="goodbye">Прощание</option>
+                    </select>
+                </td>
+                <td>
+                {% if message.author == -1 %}
+                    <label for="like-{{message.id}}">
+                        <span class="ui-icon ui-icon-heart"></span>
+                        <input type="checkbox" class="like" name="like-{{message.id}}" id="like-{{message.id}}">
+                    </label>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div id="tabs-3">
         <div>

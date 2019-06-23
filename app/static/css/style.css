@@ -109,6 +109,8 @@ Chat Title
   z-index: 1;
   top: 8px;
   left: 9px;
+}
+.avatar {
   border-radius: 30px;
   width: 30px;
   height: 30px;
@@ -116,8 +118,9 @@ Chat Title
   margin: 0;
   padding: 0;
   border: 2px solid white;
+  background-color: gray;
 }
-.chat-title .avatar img {
+.avatar img {
   width: 100%;
   height: auto;
 }
@@ -174,17 +177,6 @@ Messages
   z-index: 1;
   bottom: -15px;
   left: -35px;
-  border-radius: 30px;
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  border: 2px solid white;
-}
-.messages .message .avatar img {
-  width: 100%;
-  height: auto;
 }
 .messages .message.message-personal {
   float: right;
